@@ -16,7 +16,7 @@ public class VistaPrincipal extends AppCompatActivity {
     private Button btnAgregarTarea;
     private ListView lstTareas;
     private ArrayList<String> listaTareas;
-    private ArrayAdapter<String> adaptadorTareas;
+    private TareaAdapter adaptadorTareas;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class VistaPrincipal extends AppCompatActivity {
         lstTareas = findViewById(R.id.lstTareas);
 
         listaTareas = new ArrayList<>();
-        adaptadorTareas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaTareas);
+        adaptadorTareas = new TareaAdapter(this, listaTareas);
         lstTareas.setAdapter(adaptadorTareas);
 
         btnAgregarTarea.setOnClickListener(new View.OnClickListener() {
