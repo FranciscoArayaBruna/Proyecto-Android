@@ -23,15 +23,7 @@ public class VistaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vista_principal);
 
-        Button btnVolver = findViewById(R.id.btnVolver);
-        btnVolver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
 
-                startActivity(i);
-            }
-        });
 
         edtNuevaTarea = findViewById(R.id.edtNuevaTarea);
         btnAgregarTarea = findViewById(R.id.btnAgregarTarea);
