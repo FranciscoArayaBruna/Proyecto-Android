@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#444654"
+    android:background="#D4D4D4"
     tools:context=".MainActivity">
 
     <ImageView
@@ -23,9 +23,8 @@
         android:text="Bienvenido a ListaFacil"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textAlignment="center"
-        android:background="#444654"
         android:paddingVertical="5sp"
         android:layout_marginTop="24dp" />
 
@@ -34,11 +33,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-
         android:paddingHorizontal="20sp"
         android:paddingVertical="20sp"
         android:text="El lugar perfecto para organizar tus tareas y asegurarte de que nunca se te olvide ninguna."
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="italic" />
 
@@ -47,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:backgroundTint="#88FF3D00"
+        android:backgroundTint="#E51B23"
         android:text="Continuar"
         android:textColor="#FFFFFF"
         android:textSize="18sp"

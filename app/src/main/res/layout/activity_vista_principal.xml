@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#444654"
+    android:background="#D4D4D4"
     tools:context=".MainActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:text="ListaFacil"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="#bcb1a7"
+        android:textColor="#E51B23"
         android:layout_marginTop="42dp"/>
 
     <EditText
@@ -25,11 +25,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="Nueva tarea"
-        android:textColorHint="#bcb1a7"
+        android:textColorHint="@color/black"
         android:minHeight="48dp"
         android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:textStyle="italic" />
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        />
 
     <Button
         android:id="@+id/btnAgregarTarea"
@@ -40,8 +41,8 @@
         android:layout_marginTop="8dp"
         android:textSize="18sp"
         android:textStyle="italic"
-        android:backgroundTint="#88FF3D00"
-        android:textColor="#bcb1a7"
+        android:backgroundTint="#E51B23"
+        android:textColor="#FFFFFF"
 
         />
 
@@ -51,7 +52,6 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:layout_weight="1"
-        android:textColor="#bcb1a7"
         android:textSize="16sp"
         android:textStyle="italic" />
 

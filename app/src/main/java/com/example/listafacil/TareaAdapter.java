@@ -1,5 +1,4 @@
 package com.example.listafacil;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -85,6 +84,4 @@ public class TareaAdapter extends ArrayAdapter<String> {
         builder.show();
     }
 }
-
-
 

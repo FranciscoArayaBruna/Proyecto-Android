@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="18sp"
-        android:textColor="#bcb1a7"
+        android:textColor="@color/black"
         />
 
     <Button
@@ -19,9 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Editar"
-        android:backgroundTint="#88FF3D00"
+        android:backgroundTint="#E51B23"
         android:textStyle="italic"
-        android:textColor="#bcb1a7"
+        android:textColor="#FFFFFF"
         />
 
     <Button
@@ -29,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Eliminar"
-        android:backgroundTint="#88FF3D00"
+        android:backgroundTint="#E51B23"
         android:textStyle="italic"
-        android:textColor="#bcb1a7"
+        android:textColor="#FFFFFF"
         />
 </LinearLayout>
