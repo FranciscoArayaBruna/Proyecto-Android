@@ -13,13 +13,22 @@
         android:theme="@style/Theme.ListaFacil"
         tools:targetApi="31">
         <activity
+            android:name=".Vista.RegistroUsuario"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroUsuarioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Vista.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".listaTareas"
             android:exported="false" />
         <activity
-            android:name=".VistaPrincipal"
+            android:name=".Vista.VistaPrincipal"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Vista.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

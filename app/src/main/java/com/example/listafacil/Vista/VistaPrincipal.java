@@ -1,4 +1,4 @@
-package com.example.listafacil;
+package com.example.listafacil.Vista;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -8,8 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.listafacil.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class VistaPrincipal extends AppCompatActivity {
@@ -19,6 +24,13 @@ public class VistaPrincipal extends AppCompatActivity {
     private ListView lstTareas;
     private ArrayList<String> listaTareas;
     private TareaAdapter adaptadorTareas;
+    private Button btnIniciarSesion;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarTareasGuardadas();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +44,11 @@ public class VistaPrincipal extends AppCompatActivity {
         adaptadorTareas = new TareaAdapter(this, listaTareas);
         lstTareas.setAdapter(adaptadorTareas);
 
-        cargarTareasGuardadas(); // Carga las tareas guardadas al iniciar
+        // Recuperar el nombre de usuario de la información de inicio de sesión
+        TextView txtUsername = findViewById(R.id.txtUsername);
+
+        // Configurar el nombre de usuario en el TextView
+        txtUsername.setText(obtenerNombreDeUsuario());
 
         btnAgregarTarea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,13 +60,39 @@ public class VistaPrincipal extends AppCompatActivity {
                     adaptadorTareas.notifyDataSetChanged();
                     edtNuevaTarea.setText("");
 
-                    guardarTareas(); // Guarda las tareas actualizadas
+                    guardarTareas(); // Guarda las tareas
                 }
+            }
+        });
+
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
+        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Aquí debes agregar el código para iniciar sesión
+                // Puedes abrir la actividad de inicio de sesión o realizar las acciones necesarias
+                // dependiendo de tu lógica de inicio de sesión.
+                // Por ejemplo, podrías abrir una nueva actividad de inicio de sesión.
+                Intent intent = new Intent(VistaPrincipal.this, LoginActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    private void cargarTareasGuardadas() {
+    private String obtenerNombreDeUsuario() {
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        String userEmail = prefs.getString("userEmail", ""); // "userEmail" debe coincidir con la clave utilizada durante el inicio de sesión
+
+        // Extraer la parte del correo electrónico antes del "@"
+        int atIndex = userEmail.indexOf("@");
+        if (atIndex != -1) {
+            return userEmail.substring(0, atIndex);
+        } else {
+            return userEmail; // Si no hay "@" en el correo, devuelve el correo completo
+        }
+    }
+
+    private void cargarTareasGuardadas() { // Carga las tareas guardadas al iniciar
         SharedPreferences prefs = getSharedPreferences("MiPreferencia", MODE_PRIVATE);
         String tareasGuardadas = prefs.getString("tareasGuardadas", null);
 

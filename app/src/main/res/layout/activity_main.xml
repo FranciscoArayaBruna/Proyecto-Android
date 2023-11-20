@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#D4D4D4"
-    tools:context=".MainActivity">
+    tools:context=".Vista.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -35,7 +35,7 @@
         android:gravity="center"
         android:paddingHorizontal="20sp"
         android:paddingVertical="20sp"
-        android:text="El lugar perfecto para organizar tus tareas y asegurarte de que nunca se te olvide ninguna."
+        android:text="El lugar perfecto para organizar tus tareas y asegurarte de que nunca se te olvide."
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="italic" />
