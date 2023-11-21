@@ -1,4 +1,4 @@
-package com.example.semana12_sqliteapp.Modelo;
+package com.example.listafacil.Modelo;
 
 public class Usuario {
 

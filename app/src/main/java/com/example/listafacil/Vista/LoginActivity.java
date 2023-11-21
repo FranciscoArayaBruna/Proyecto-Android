@@ -2,6 +2,7 @@ package com.example.listafacil.Vista;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ public class LoginActivity extends Activity {
 
     private EditText editTextUsername;
     private EditText editTextPassword;
-
     private Button btnLogin;
     private Button btnRegister;
 
@@ -34,9 +34,10 @@ public class LoginActivity extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login(view);
+                login();
             }
         });
+
         btnRegister = findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,19 +48,20 @@ public class LoginActivity extends Activity {
         });
 
         // Borrar cualquier texto existente en los EditText
-        editTextUsername.setText(""); // Establecer el texto en una cadena vacía
-        editTextPassword.setText(""); // Establecer el texto en una cadena vacía
+        editTextUsername.setText("");
+        editTextPassword.setText("");
     }
 
-    public void login(View view) {
+    private void login() {
         String username = editTextUsername.getText().toString();
         String password = editTextPassword.getText().toString();
 
         if (userExists(username)) {
             if (isValidUser(username, password)) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                // Inicia la VistaPrincipal después de mostrar el mensaje
+                guardarCorreoUsuario(username);
                 Intent i = new Intent(LoginActivity.this, VistaPrincipal.class);
+                i.putExtra("USERNAME", username);
                 startActivity(i);
             } else {
                 Toast.makeText(this, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
@@ -67,6 +69,13 @@ public class LoginActivity extends Activity {
         } else {
             Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void guardarCorreoUsuario(String correo) {
+        SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("userEmail", correo);
+        editor.apply();
     }
 
     private boolean userExists(String username) {
