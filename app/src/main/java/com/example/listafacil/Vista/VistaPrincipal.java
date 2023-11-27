@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.listafacil.Controlador.NotificacionJobIntentService;
 import com.example.listafacil.R;
 
 import org.json.JSONArray;
@@ -35,6 +36,11 @@ public class VistaPrincipal extends AppCompatActivity {
         cargarTareasGuardadas();
     }
 
+    private void iniciarServicioNotificaciones() {
+        Intent serviceIntent = new Intent(this, NotificacionJobIntentService.class);
+        NotificacionJobIntentService.enqueueWork(this, serviceIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,7 @@ public class VistaPrincipal extends AppCompatActivity {
         listaTareas = new ArrayList<>();
         adaptadorTareas = new TareaAdapter(this, listaTareas);
         lstTareas.setAdapter(adaptadorTareas);
+        iniciarServicioNotificaciones();
 
         TextView txtUsername = findViewById(R.id.txtUsername);
         String username = getIntent().getStringExtra("USERNAME");
@@ -105,4 +112,6 @@ public class VistaPrincipal extends AppCompatActivity {
         editor.putString("tareasGuardadas", jsonArray.toString());
         editor.apply();
     }
+
+
 }

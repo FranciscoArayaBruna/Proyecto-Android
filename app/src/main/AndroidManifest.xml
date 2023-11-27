@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,13 +17,7 @@
             android:name=".Vista.RegistroUsuario"
             android:exported="false" />
         <activity
-            android:name=".RegistroUsuarioActivity"
-            android:exported="false" />
-        <activity
             android:name=".Vista.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".listaTareas"
             android:exported="false" />
         <activity
             android:name=".Vista.VistaPrincipal"
@@ -36,6 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".Controlador.NotificacionService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="tu.paquete.NotificacionService" />
+            </intent-filter>
+        </service>
     </application>
+
 
 </manifest>
