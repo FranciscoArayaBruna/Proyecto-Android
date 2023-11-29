@@ -2,6 +2,7 @@ package com.example.listafacil.Vista;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -24,6 +25,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VistaPrincipal extends AppCompatActivity {
 
@@ -80,20 +83,16 @@ public class VistaPrincipal extends AppCompatActivity {
         });
 
         // Agregamos la lógica para mostrar notificaciones cada 15 segundos
-        Handler handler = new Handler(getMainLooper());
-        handler.postDelayed(new Runnable() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 // Verificar y mostrar notificación
                 if (hayTareasPendientes()) {
                     mostrarNotificacion();
                 }
-                // Programar el próximo chequeo después de 15 segundos
-                handler.postDelayed(this, 15000);
             }
-        }, 15000);
-
-        // Resto del código...
+        }, 15000, 15000);
     }
 
     private boolean hayTareasPendientes() {
@@ -101,21 +100,30 @@ public class VistaPrincipal extends AppCompatActivity {
     }
 
     private void mostrarNotificacion() {
+        if (!hayTareasPendientes()) {
+            return;
+        }
+
         createNotificationChannel();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                         .setContentTitle("Tareas Pendientes")
                         .setContentText("Tienes tareas pendientes por hacer.")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setContentIntent(pendingIntent)  // Configurar el intent al hacer clic
+                        .setAutoCancel(true);  // Cierra la notificación al hacer clic
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
-
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "NotificacionChannel";
