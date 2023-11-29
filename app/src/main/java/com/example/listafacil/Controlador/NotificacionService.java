@@ -1,54 +1,49 @@
 package com.example.listafacil.Controlador;
-import android.app.IntentService;
+
+// NotificacionService.java
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.IBinder;
 
 import androidx.core.app.NotificationCompat;
 
-public class NotificacionService extends IntentService {
+public class NotificacionService extends Service {
 
     private static final String CHANNEL_ID = "NotificacionChannel";
     private static final int NOTIFICATION_ID = 1;
 
-    public NotificacionService() {
-        super("NotificacionService");
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
-            // Manejar la lógica de notificación aquí
-            manejarNotificaciones();
+            manejarNotificaciones(intent.getBooleanExtra("hayTareasPendientes", false));
         }
+        return START_NOT_STICKY;
     }
 
-    private void manejarNotificaciones() {
-        // Esperar 24 horas (86400000 milisegundos)
-        long delayMillis = 86400000;
+    private void manejarNotificaciones(boolean hayTareasPendientes) {
+        long delayMillis = 15000; // Notificación cada 15 segundos
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Verificar si hay tareas pendientes (debes implementar esta lógica)
-                if (hayTareasPendientes()) {
-                    // Mostrar la notificación
+                if (hayTareasPendientes) {
                     mostrarNotificacion();
+                    // Luego de mostrar la notificación, programamos la próxima
+                    manejarNotificaciones(true);
                 }
             }
         }, delayMillis);
-    }
-
-    private boolean hayTareasPendientes() {
-        // Aquí debes implementar la lógica para verificar si hay tareas pendientes
-        // Puedes consultar tus datos locales y determinar si hay tareas que necesitan notificación.
-        // Devuelve true si hay tareas pendientes, false de lo contrario.
-        return false; // Este es un marcador de posición, debes implementarlo según tus necesidades.
     }
 
     private void mostrarNotificacion() {
@@ -80,4 +75,3 @@ public class NotificacionService extends IntentService {
         }
     }
 }
-
