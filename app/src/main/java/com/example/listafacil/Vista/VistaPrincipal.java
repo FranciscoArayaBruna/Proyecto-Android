@@ -63,6 +63,14 @@ public class VistaPrincipal extends AppCompatActivity {
         String username = getIntent().getStringExtra("USERNAME");
         txtUsername.setText(username);
 
+        btnIniciarSesion = findViewById(R.id.btnIniciarSesion);
+        btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(VistaPrincipal.this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
         btnAgregarTarea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

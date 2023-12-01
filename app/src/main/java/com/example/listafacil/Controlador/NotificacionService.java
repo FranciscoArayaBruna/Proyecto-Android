@@ -1,6 +1,5 @@
 package com.example.listafacil.Controlador;
 
-// NotificacionService.java
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
