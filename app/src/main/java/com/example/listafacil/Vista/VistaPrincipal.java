@@ -100,7 +100,7 @@ public class VistaPrincipal extends AppCompatActivity {
                     mostrarNotificacion();
                 }
             }
-        }, 15000, 15000);
+        }, 10000, 10000);
     }
 
     private boolean hayTareasPendientes() {

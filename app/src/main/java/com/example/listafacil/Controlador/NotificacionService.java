@@ -31,7 +31,7 @@ public class NotificacionService extends Service {
     }
 
     private void manejarNotificaciones(boolean hayTareasPendientes) {
-        long delayMillis = 15000; // Notificación cada 15 segundos
+        long delayMillis = 10000; // Notificación cada 10 segundos
 
         new Handler(getMainLooper()).postDelayed(new Runnable() {
             @Override
