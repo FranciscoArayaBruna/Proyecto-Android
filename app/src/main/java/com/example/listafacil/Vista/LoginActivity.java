@@ -1,6 +1,7 @@
 package com.example.listafacil.Vista;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -42,8 +43,7 @@ public class LoginActivity extends Activity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(LoginActivity.this, RegistroUsuario.class);
-                startActivity(i);
+                register();
             }
         });
 
@@ -69,6 +69,37 @@ public class LoginActivity extends Activity {
         } else {
             Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void register() {
+        String username = editTextUsername.getText().toString();
+        String password = editTextPassword.getText().toString();
+
+        if (isValidInput(username, password) && !userExists(username)) {
+            // Guardar usuario en la base de datos
+            guardarUsuarioEnBD(username, password);
+
+            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+
+            // Realizar el inicio de sesión automáticamente después del registro
+            guardarCorreoUsuario(username);
+            Intent intent = new Intent(this, VistaPrincipal.class);
+            intent.putExtra("USERNAME", username);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Por favor, ingrese un nombre de usuario y una contraseña válidos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void guardarUsuarioEnBD(String correo, String contrasena) {
+        ConexionHelper conn = new ConexionHelper(this, "TABLA_USUARIO", null, 1);
+        SQLiteDatabase db = conn.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Utility.CAMPO_CORREO, correo);
+        contentValues.put(Utility.CAMPO_CONTRASENA, contrasena);
+
+        db.close();
     }
 
     private void guardarCorreoUsuario(String correo) {
@@ -100,5 +131,19 @@ public class LoginActivity extends Activity {
         } finally {
             db.close();
         }
+    }
+
+    private boolean isValidInput(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Por favor, ingrese un nombre de usuario y una contraseña válidos", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (password.length() < 6) {
+            Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

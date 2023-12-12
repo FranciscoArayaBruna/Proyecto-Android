@@ -1,9 +1,11 @@
 package com.example.listafacil.Vista;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -36,7 +39,7 @@ public class VistaPrincipal extends AppCompatActivity {
     private ArrayList<String> listaTareas;
     private TareaAdapter adaptadorTareas;
     private Button btnIniciarSesion;
-
+    private Button btnEliminarTareas;
     private static final String PREFS_NAME = "MiPreferencia";
     private static final String CHANNEL_ID = "NotificacionChannel";
     private static final int NOTIFICATION_ID = 1;
@@ -89,6 +92,17 @@ public class VistaPrincipal extends AppCompatActivity {
                 }
             }
         });
+        btnEliminarTareas = findViewById(R.id.btnEliminarTareas);
+        btnEliminarTareas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listaTareas.isEmpty()) {
+                    mostrarMensajeNoHayTareas();
+                } else {
+                    mostrarDialogoConfirmacion();
+                }
+            }
+        });
 
         // Agregamos la lógica para mostrar notificaciones cada 15 segundos
         Timer timer = new Timer();
@@ -120,7 +134,7 @@ public class VistaPrincipal extends AppCompatActivity {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
-                        .setSmallIcon(android.R.drawable.ic_dialog_info)
+                        .setSmallIcon(R.drawable.logoksinfondo)
                         .setContentTitle("Tareas Pendientes")
                         .setContentText("Tienes tareas pendientes por hacer.")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -174,5 +188,37 @@ public class VistaPrincipal extends AppCompatActivity {
 
         editor.putString("tareasGuardadas", jsonArray.toString());
         editor.apply();
+    }
+    private void mostrarMensajeNoHayTareas() {
+        Toast.makeText(this, "No hay tareas para eliminar", Toast.LENGTH_SHORT).show();
+    }
+    private void mostrarDialogoConfirmacion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Eliminar Tareas");
+        builder.setMessage("¿Estás seguro de que deseas eliminar todas las tareas?");
+
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                eliminarTodasLasTareas();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // No hacer nada, simplemente cerrar el cuadro de diálogo
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void eliminarTodasLasTareas() {
+        listaTareas.clear();
+        adaptadorTareas.notifyDataSetChanged();
+        guardarTareas(); // Actualizar el almacenamiento compartido
+        Toast.makeText(this, "Todas las tareas han sido eliminadas", Toast.LENGTH_SHORT).show();
     }
 }

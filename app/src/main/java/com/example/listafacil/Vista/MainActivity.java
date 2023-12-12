@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences prefs = getSharedPreferences("MiPreferencia", MODE_PRIVATE);
+        /*SharedPreferences prefs = getSharedPreferences("MiPreferencia", MODE_PRIVATE);
         boolean seHaIniciadoAntes = prefs.getBoolean("seHaIniciadoAntes", false);
 
         if (!seHaIniciadoAntes) {
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
             finish();
             return; // Asegúrate de que MainActivity no continúe su ejecución
-        }
+        }*/
 
         Button btnContinuar = findViewById(R.id.btnContinuar);
         btnContinuar.setOnClickListener(new View.OnClickListener() {
