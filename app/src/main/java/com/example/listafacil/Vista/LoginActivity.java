@@ -72,35 +72,56 @@ public class LoginActivity extends Activity {
     }
 
     private void register() {
-        String username = editTextUsername.getText().toString();
-        String password = editTextPassword.getText().toString();
+        String correo = editTextUsername.getText().toString();
+        String contrasena = editTextPassword.getText().toString();
 
-        if (isValidInput(username, password) && !userExists(username)) {
-            // Guardar usuario en la base de datos
-            guardarUsuarioEnBD(username, password);
+        if (isValidInput(correo, contrasena)) {
+            // Verificar si el usuario ya está registrado antes de abrir la base de datos
+            if (userExists(correo)) {
+                Toast.makeText(this, "Este correo ya está registrado", Toast.LENGTH_SHORT).show();
+            } else {
+                // Guardar usuario en la base de datos
+                guardarUsuarioEnBD(correo, contrasena);
 
-            Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show();
 
-            // Realizar el inicio de sesión automáticamente después del registro
-            guardarCorreoUsuario(username);
-            Intent intent = new Intent(this, VistaPrincipal.class);
-            intent.putExtra("USERNAME", username);
-            startActivity(intent);
+                // Realizar el inicio de sesión automáticamente después del registro
+                guardarCorreoUsuario(correo);
+                Intent intent = new Intent(this, VistaPrincipal.class);
+                intent.putExtra("USERNAME", correo);
+                startActivity(intent);
+            }
         } else {
-            Toast.makeText(this, "Por favor, ingrese un nombre de usuario y una contraseña válidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Por favor, ingrese un correo y una contraseña válidos", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void guardarUsuarioEnBD(String correo, String contrasena) {
         ConexionHelper conn = new ConexionHelper(this, "TABLA_USUARIO", null, 1);
         SQLiteDatabase db = conn.getWritableDatabase();
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(Utility.CAMPO_CORREO, correo);
-        contentValues.put(Utility.CAMPO_CONTRASENA, contrasena);
+        // Verificar si el usuario ya existe en la base de datos
+        if (userExists(correo)) {
+            Toast.makeText(this, "Este correo ya está registrado", Toast.LENGTH_SHORT).show();
+        } else {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Utility.CAMPO_CORREO, correo);
+            contentValues.put(Utility.CAMPO_CONTRASENA, contrasena);
 
+            // Insertar usuario en la base de datos
+            long idResultante = db.insert(Utility.TABLA_USUARIO, null, contentValues);
+
+            // Mostrar un mensaje indicando que el registro fue exitoso
+            Toast.makeText(getApplicationContext(), "Registro exitoso. ID: " + idResultante, Toast.LENGTH_SHORT).show();
+        }
+
+        // Cerrar la conexión a la base de datos después de realizar la operación
         db.close();
     }
+
+
+
 
     private void guardarCorreoUsuario(String correo) {
         SharedPreferences prefs = getSharedPreferences("UserData", MODE_PRIVATE);
@@ -109,12 +130,12 @@ public class LoginActivity extends Activity {
         editor.apply();
     }
 
-    private boolean userExists(String username) {
+    private boolean userExists(String correo) {
         ConexionHelper conn = new ConexionHelper(this, "TABLA_USUARIO", null, 1);
         SQLiteDatabase db = conn.getReadableDatabase();
 
         try {
-            Cursor cursor = db.rawQuery("SELECT * FROM " + Utility.TABLA_USUARIO + " WHERE " + Utility.CAMPO_CORREO + "=?", new String[]{username});
+            Cursor cursor = db.rawQuery("SELECT * FROM " + Utility.TABLA_USUARIO + " WHERE " + Utility.CAMPO_CORREO + "=?", new String[]{correo});
             return cursor.getCount() > 0;
         } finally {
             db.close();

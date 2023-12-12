@@ -20,9 +20,6 @@
         android:theme="@style/Theme.ListaFacil">
 
         <activity
-            android:name=".Vista.RegistroUsuario"
-            android:exported="false" />
-        <activity
             android:name=".Vista.LoginActivity"
             android:exported="false" />
         <activity
@@ -43,19 +40,6 @@
                 <action android:name="com.example.listafacil.Controlador.NotificacionService" />
             </intent-filter>
         </service>
-        <service
-            android:name=".Controlador.NotificationJobService"
-            android:permission="android.permission.BIND_JOB_SERVICE"
-            android:exported="false"/>
-
-        <receiver
-            android:name=".Controlador.TareasPendientesReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.example.listafacil.TAREAS_PENDIENTES_ACTION" />
-            </intent-filter>
-        </receiver>
 
     </application>
 
